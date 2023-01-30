@@ -4,4 +4,4 @@ txt2image runner aims to automate the proccess of generating the dataset images 
 
 ## Architecture
 
-![Txt2image runner](assets/arc.jpeg)
+![Txt2image runner](assets/arc.jpg)
