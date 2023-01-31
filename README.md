@@ -8,6 +8,4 @@ txt2image runner aims to automate the proccess of generating the dataset images 
 
 
 ## TODO
-- Catch exception when directory already exists ( )
-- Export to use environment variables ( )
 - ZIP final folder ( )
