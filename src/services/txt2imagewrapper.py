@@ -28,14 +28,4 @@ class TextToImageWrapper:
         return datadir
 
     def __call_diffusion_stable(self, text: str, outdir):
-        subprocess.run([
-            "python3",
-            self.__script_path,
-            f"--prompt {text}"],
-            f"--ckpt {self.__model_path}",
-            f"--H {self.__heigth}",
-            f"--W {self.__width}",
-            f"--config {self.__config}",
-            f"--n_samples {self.__n_samples}",
-            f"--outdir {outdir}")
-
+        os.system(f"python3 {self.__script_path} --prompt \"{text}\" --ckpt {self.__model_path} --H {self.__heigth} --W {self.__width} --config {self.__config} --n_samples {self.__n_samples} --outdir {outdir}")
