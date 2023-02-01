@@ -19,13 +19,18 @@ class TextToImageWrapper:
     def generate(self):
         for index, row in self.__dataset.iterrows():
             print(f"{index}/{row['tweet_id']} - {row['text']}")
-            self.__call_diffusion_stable(
-                row['text'],
-                self.__create_sample_outdir(row['tweet_id']))
+            can_proceeed = self.__create_sample_outdir(row['tweet_id'])
+            if can_proceeed is not False:
+                self.__call_diffusion_stable(
+                    row['text'], can_proceeed)
+            else:
+                print(f"skipping {row['tweet_id']} sample already exists")
 
     def __create_sample_outdir(self, tweet_id):
         try:
             datadir = f"{self.__upper_outdir}/{tweet_id}"
+            if os.path.isdir(datadir):
+                return False
             os.mkdir(datadir)
         except Exception as e:
             print(e)
