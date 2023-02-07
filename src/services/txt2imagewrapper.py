@@ -6,14 +6,14 @@ import pandas as pd
 class TextToImageWrapper:
 
     def __init__(self, dataset: pd.DataFrame) -> None:
-        self.__repo_dir = os.getenv("STABLE_DIFFUSION_DIR", "stable-diffusion")
+        self.__repo_dir = os.getenv("STABLE_DIFFUSION_DIR", "stablediffusion")
         self.__dataset = dataset.reset_index()
         self.__script_path = f"{self.__repo_dir}/scripts/txt2img.py"
         self.__model_path = f"{self.__repo_dir}/v2-1_768-ema-pruned.ckpt"
         self.__heigth = 256
         self.__width = 256
         self.__config = f"{self.__repo_dir}/configs/stable-diffusion/v2-inference-v.yaml"
-        self.__n_samples = int(os.getenv("N_SAMPLES", 4))
+        self.__n_samples = int(os.getenv("N_SAMPLES", 1))
         self.__upper_outdir = f"{self.__repo_dir}/outputs"
 
     def generate(self):
