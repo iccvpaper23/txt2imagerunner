@@ -5,7 +5,7 @@ import pandas as pd
 
 class TextToImageWrapper:
 
-    def __init__(self, dataset: pd.DataFrame, restaurant_dataset: bool) -> None:
+    def __init__(self, dataset: pd.DataFrame, restaurant_dataset: bool, imdb_dataset:bool) -> None:
         self.__repo_dir = os.getenv("STABLE_DIFFUSION_DIR", "stablediffusion")
         self.__dataset = dataset.reset_index()
         self.__script_path = f"{self.__repo_dir}/scripts/txt2img.py"
@@ -17,10 +17,13 @@ class TextToImageWrapper:
         self.__upper_outdir = f"{self.__repo_dir}/outputs"
         self.__max_tries_on_sampling = int(os.getenv("MAX_TRIES", 10))
         self.__restaurant_dataset = restaurant_dataset
+        self.__imdb_dataset = imdb_dataset
 
     def __get__keys_for_dataset(self):
         if self.__restaurant_dataset == True:
             return 'index', 'Review'
+        elif self.__imdb_dataset == True:
+            return 'index', 'review'
         return 'tweet_id', 'text'
 
     def generate(self):
