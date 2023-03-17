@@ -71,8 +71,7 @@ class TextToImageWrapper:
         while exit_status_code != 0 and sampling_tries < self.__max_tries_on_sampling:
             sampling_tries += 1
             command = f"python3 {self.__script_path} --prompt \"{text}\" --ckpt {self.__model_path} --H {self.__heigth} --W {self.__width} --config {self.__config} --n_samples {self.__n_samples} --outdir {outdir}"
-            print(command)
-            #exit_status_code = os.system(command)
+            exit_status_code = os.system(command)
         
         if sampling_tries >= self.__max_tries_on_sampling:
             with open("sampling_errors.log", "a") as f:
