@@ -5,7 +5,7 @@ import pandas as pd
 
 class TextToImageWrapper:
 
-    def __init__(self, dataset: pd.DataFrame, restaurant_dataset: bool, restaurant_embedding: bool) -> None:
+    def __init__(self, dataset: pd.DataFrame, restaurant_dataset: bool, restaurant_embedding: bool, embedding_is_test=False) -> None:
         self.__repo_dir = os.getenv("STABLE_DIFFUSION_DIR", "stablediffusion")
         if restaurant_embedding is not True:
             self.__dataset = dataset.reset_index()
@@ -22,6 +22,7 @@ class TextToImageWrapper:
         self.__max_tries_on_sampling = int(os.getenv("MAX_TRIES", 10))
         self.__restaurant_dataset = restaurant_dataset
         self.__restaurant_embedding = restaurant_embedding
+        self.__embedding_is_test = embedding_is_test
 
     def __get__keys_for_dataset(self):
         if self.__restaurant_dataset == True:
@@ -36,8 +37,12 @@ class TextToImageWrapper:
             print(f"restaurant review index {index}  uuid {uuid} generating embedding")
             can_proceeed = self.__create_sample_outdir(uuid)
             if can_proceeed is not False:
+                if self.__embedding_is_test:
+                    index_to_sd = index + 800 # sum 800 so that SD can validate that it is test by considering: x > 800; test; train.
+                else:
+                    index_to_sd = index
                 self.__call_diffusion_stable(
-                    uuid, index, can_proceeed)
+                    uuid, index_to_sd, can_proceeed)
             else:
                 print(f"skipping {uuid} sample already exists")
 
