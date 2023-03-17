@@ -13,8 +13,9 @@ txt2image runner aims to automate the proccess of generating the dataset images 
 ## Using
 1. Export needed environment variables;
 ```shell
-$ export DATASET_PATH=~/foo/bar          # Default is ./dataset/airline_reviews.csv
+$ export DATASET_PATH=~/foo/bar          # Default is ./dataset/airline_reviews.csv if you are running embeddings export until folder: dataset/restaurant_embeddings
 $ export IS_RESTAURANT_REVIEW=true       # Use only if you are running on Google restaurant reviews dataset
+$ export IS_RESTAURANT_REVIEW_FROM_EMBEDDINGS=true   # Use only if you are running on Google restaurant embeddings reviews dataset
 ```
 2. Start generating samples
 ```shell

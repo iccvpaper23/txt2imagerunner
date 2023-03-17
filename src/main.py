@@ -6,9 +6,22 @@ from data.dataset_handler import read_dataset
 from services.txt2imagewrapper import TextToImageWrapper
 
 IS_RESTAURANT_REVIEW = bool(os.getenv('IS_RESTAURANT_REVIEW', False))
+IS_RESTAURANT_REVIEW_FROM_EMBEDDINGS = bool(os.getenv('IS_RESTAURANT_REVIEW_FROM_EMBEDDINGS', False))
 
 if __name__ == '__main__':
     dataset_path = os.getenv('DATASET_PATH', './dataset/airline_reviews.csv')
-    dataset : pd.DataFrame = read_dataset(path=dataset_path, restaurant_dataset=IS_RESTAURANT_REVIEW)
+    dataset_or_fold0_train, fold1_train = read_dataset(
+        path=dataset_path,
+        restaurant_dataset=IS_RESTAURANT_REVIEW,
+        restaurant_dataset_embeddings=IS_RESTAURANT_REVIEW_FROM_EMBEDDINGS)
+    
     TextToImageWrapper(
-        dataset=dataset, restaurant_dataset=IS_RESTAURANT_REVIEW).generate()
+        dataset=dataset_or_fold0_train,
+        restaurant_dataset=IS_RESTAURANT_REVIEW,
+        restaurant_embedding=IS_RESTAURANT_REVIEW_FROM_EMBEDDINGS).generate()
+    
+    if fold1_train:
+        TextToImageWrapper(
+            dataset=fold1_train,
+            restaurant_dataset=IS_RESTAURANT_REVIEW,
+            restaurant_embedding=IS_RESTAURANT_REVIEW_FROM_EMBEDDINGS).generate()
