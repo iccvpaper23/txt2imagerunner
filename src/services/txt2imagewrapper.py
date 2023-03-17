@@ -31,12 +31,13 @@ class TextToImageWrapper:
         return 'tweet_id', 'text'
     
     def __generate_for_embeddings(self):
-        for uuid in self.__dataset:
-            print(f"restaurant review {uuid} generating embedding")
+        for index in range(len(self.__dataset)):
+            uuid = self.__dataset[index]
+            print(f"restaurant review index {index}  uuid {uuid} generating embedding")
             can_proceeed = self.__create_sample_outdir(uuid)
             if can_proceeed is not False:
                 self.__call_diffusion_stable(
-                    uuid, uuid, can_proceeed)
+                    uuid, index, can_proceeed)
             else:
                 print(f"skipping {uuid} sample already exists")
 
@@ -70,7 +71,8 @@ class TextToImageWrapper:
         while exit_status_code != 0 and sampling_tries < self.__max_tries_on_sampling:
             sampling_tries += 1
             command = f"python3 {self.__script_path} --prompt \"{text}\" --ckpt {self.__model_path} --H {self.__heigth} --W {self.__width} --config {self.__config} --n_samples {self.__n_samples} --outdir {outdir}"
-            exit_status_code = os.system(command)
+            print(command)
+            #exit_status_code = os.system(command)
         
         if sampling_tries >= self.__max_tries_on_sampling:
             with open("sampling_errors.log", "a") as f:
