@@ -21,11 +21,14 @@ if __name__ == '__main__':
     dataset_path = os.getenv('ART_DATASET')
     txt2wrappermin = TextToImageWrapperMinimal()
 
+    seeds = [42, 84, 168, 336]
+
     df = read_dataset(dataset_path)
     for index, row in df.iterrows():
         output_dir, prompt = get_prompt_details(row, index)
-        txt2wrappermin.generate_sample(
+        for seed in seeds:
+            txt2wrappermin.generate_sample(
             prompt=prompt,
             sample_uuid=index,
-            output_dir=output_dir)
-        break
+            output_dir=output_dir,
+            seed=seed)
