@@ -14,8 +14,7 @@ class TextToImageWrapperMinimal:
                  stable_diffusion_dir: str = "stablediffusion",
                  numer_samples: int = 1,
                  max_tries_on_error: int = 10,
-                 n_iter: int = 1,
-                 seed: int = 42) -> None:
+                 n_iter: int = 1) -> None:
         self.__script_path = f"{stable_diffusion_dir}/scripts/txt2img.py"
         self.__model_path = f"{stable_diffusion_dir}/v2-1_768-ema-pruned.ckpt"
         self.__heigth = 768
@@ -24,9 +23,8 @@ class TextToImageWrapperMinimal:
         self.__n_samples = numer_samples
         self.__n_iter = n_iter
         self.__max_tries_on_sampling = max_tries_on_error
-        self.__seed = seed
 
-    def generate_sample(self, prompt: str, sample_uuid: str, output_dir: str):
+    def generate_sample(self, prompt: str, sample_uuid: str, output_dir: str, seed: int = 42):
         exit_status_code = 1
         sampling_tries = 0
 
@@ -35,9 +33,8 @@ class TextToImageWrapperMinimal:
             command = f"python3 {self.__script_path} --prompt \"{prompt}\" --ckpt {self.__model_path} " \
                         f"--H {self.__heigth} --W {self.__width} --config {self.__config} " \
                         f"--n_samples {self.__n_samples} --n_iter {self.__n_iter} --outdir {output_dir} " \
-                        f"--seed {self.__seed}"
+                        f"--seed {seed}"
             exit_status_code = os.system(command)
-            print(command)
         
         if sampling_tries >= self.__max_tries_on_sampling:
             with open("sampling_errors.log", "a") as f:
