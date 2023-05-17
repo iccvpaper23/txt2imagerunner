@@ -16,10 +16,10 @@ class TextToImageWrapperMinimal:
                  max_tries_on_error: int = 10,
                  n_iter: int = 1) -> None:
         self.__script_path = f"{stable_diffusion_dir}/scripts/txt2img.py"
-        self.__model_path = f"{stable_diffusion_dir}/v2-1_768-ema-pruned.ckpt"
-        self.__heigth = 768
-        self.__width = 768
-        self.__config = f"{stable_diffusion_dir}/configs/stable-diffusion/v2-inference-v.yaml"
+        self.__model_path = f"{stable_diffusion_dir}/v2-1_512-ema-pruned.ckpt"
+        self.__heigth = 512
+        self.__width = 512
+        self.__config = f"{stable_diffusion_dir}/configs/stable-diffusion/v2-inference.yaml"
         self.__n_samples = numer_samples
         self.__n_iter = n_iter
         self.__max_tries_on_sampling = max_tries_on_error
